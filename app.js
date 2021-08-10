@@ -1,74 +1,73 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   //card options
-  const cardArray = [
+  const cardsArray = [
     {
-      name: 'fish',
-      img: 'images/fish.png'
-    },
-    {
-      name: 'fish',
-      img: 'images/fish.png'
+      name: 'cat',
+      url: 'images/cat.png'
     },
     {
       name: 'cat',
-      img: 'images/cat.png'
-    },
-    {
-      name: 'cat',
-      img: 'images/cat.png'
+      url: 'images/cat.png'
     },
     {
       name: 'dog',
-      img: 'images/dog.png'
+      url: 'images/dog.png'
     },
     {
       name: 'dog',
-      img: 'images/dog.png'
-    },
-    {
-      name: 'lizard',
-      img: 'images/lizard.png'
-    },
-    {
-      name: 'lizard',
-      img: 'images/lizard.png'
-    },
-    {
-      name: 'hat',
-      img: 'images/hat.png'
-    },
-    {
-      name: 'hat',
-      img: 'images/hat.png'
+      url: 'images/dog.png'
     },
     {
       name: 'tiger',
-      img: 'images/tiger.png'
+      url: 'images/tiger.png'
     },
     {
       name: 'tiger',
-      img: 'images/tiger.png'
+      url: 'images/tiger.png'
+    },
+    {
+      name: 'hat',
+      url: 'images/hat.png'
+    },
+    {
+      name: 'hat',
+      url: 'images/hat.png'
+    },
+    {
+      name: 'fish',
+      url: 'images/fish.png'
+    },
+    {
+      name: 'fish',
+      url: 'images/fish.png'
+    },
+    {
+      name: 'lizard',
+      url: 'images/lizard.png'
+    },
+    {
+      name: 'lizard',
+      url: 'images/lizard.png'
     }
   ];
 
-  cardArray.sort(() => 0.5 - Math.random());
+  cardsArray.sort( () => 0.5 - Math.random());
 
-  const grid = document.querySelector('.grid');
+  const grid = document.getElementById('grid');
   const resultDisplay = document.getElementById('result');
-  let cardsChosen = []
-  let cardsChosenId = []
-  let cardsWon = []
-
-  //create your board
+  let cardsChosen = [];
+  let cardsChosenId = [];
+  let cardsWon = [];
+  
+  //create a board
   function createBoard() {
-    for (let i=0; i<cardArray.length; i++) {
-      let card = document.createElement(
-        'img');
+    for (let i=0; i<cardsArray.length; i++) {
+      let card = document.createElement('img');
       card.setAttribute('src', 'images/card_back.png');
       card.setAttribute('data-id', i);
-      card.addEventListener('click', flipCard)
-      grid.appendChild(card);
+      card.addEventListener('click', flipCard);
+      grid.appendChild(card);    
     }
   }
 
@@ -78,40 +77,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const optionOneId = cardsChosenId[0];
     const optionTwoId = cardsChosenId[1];
     if (cardsChosen[0] === cardsChosen[1]) {
-      alert('You found a match')
+      alert("You found a match!");
       cards[optionOneId].setAttribute('src', 'images/white.png');
       cards[optionTwoId].setAttribute('src', 'images/white.png');
       cards[optionOneId].removeEventListener('click', flipCard);
       cards[optionTwoId].removeEventListener('click', flipCard);
       cardsWon.push(cardsChosen);
-      console.log(cardsWon, cardsChosen, cardsChosenId)
+      resultDisplay.textContent = cardsWon.length;
+      if (cardsWon.length === cardsArray.length/2) {
+        resultDisplay.textContent = "Congratulations! You matched all the cards!";
+      }
     } else {
       cards[optionOneId].setAttribute('src', 'images/card_back.png');
       cards[optionTwoId].setAttribute('src', 'images/card_back.png');
-      alert('Sorry, try again');
+      alert("Sorry. Try again.");
     }
     cardsChosen = [];
     cardsChosenId = [];
-    resultDisplay.textContent = cardsWon.length;
-    if (cardsWon.length === cardArray.length/2) {
-      resultDisplay.textContent = "Congratulations! You've matched all the cards!"
-    }
   }
-
-
-  //flip your card
 
   function flipCard() {
     let cardId = this.getAttribute('data-id');
-    cardsChosen.push(cardArray[cardId].name);
+    cardsChosen.push(cardsArray[cardId].name);
     cardsChosenId.push(cardId);
-    this.setAttribute('src', cardArray[cardId].img);
+    this.setAttribute('src', cardsArray[cardId].url);
     if (cardsChosen.length === 2) {
       setTimeout(checkForMatch, 500);
     }
   }
 
+
   createBoard();
 
-});
-
+})
